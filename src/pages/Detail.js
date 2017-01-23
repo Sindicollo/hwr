@@ -20,46 +20,25 @@ class Detail extends React.Component {
     }
 
     selectView(view) {
-        const newState = {
-            selectedView: view
-        };
-        console.log("Select: " + view);
-        this.setState(newState);
+        this.setState( {selectedView: view} );
+    }
+
+    fetchFeed(type) {
+        ajax.get(`https://api.github.com/repos/facebook/react/${type}`)
+            .end((error, response) => {
+                if (!error && response) {
+                    this.setState({ [type]: response.body });
+                } else {
+                    console.log(`Error fetching ${type}`, error);
+                }
+            }
+        );
     }
 
     componentWillMount() {
-        ajax.get('https://api.github.com/repos/facebook/react/commits')
-            .end((error, response) => {
-                if (!error && response) {
-                    console.dir(response.body);
-                    this.setState({ commits: response.body });
-                } else {
-                    console.log('There was an error fetching Commits from GitHub', error);
-                }
-            }
-        );
-
-        ajax.get('https://api.github.com/repos/facebook/react/forks')
-            .end((error, response) => {
-                if (!error && response) {
-                    console.dir(response.body);
-                    this.setState({ forks: response.body });
-                } else {
-                    console.log('There was an error fetching Forks from GitHub', error);
-                }
-            }
-        );
-
-        ajax.get('https://api.github.com/repos/facebook/react/pulls')
-            .end((error, response) => {
-                if (!error && response) {
-                    console.dir(response.body);
-                    this.setState({ pulls: response.body });
-                } else {
-                    console.log('There was an error fetching Pulls from GitHub', error);
-                }
-            }
-        );
+        this.fetchFeed("commits");
+        this.fetchFeed("forks");
+        this.fetchFeed("pulls");
     }
 
     renderCommits() {
