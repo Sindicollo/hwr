@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Chance from 'chance';
 import ajax from 'superagent';
+import { Link } from 'react-router';
 
 const SELECTEDVIEW = {
         COMMITS: 'commits',
@@ -47,7 +47,7 @@ class Detail extends React.Component {
             const author = commit.author ? commit.author.login : 'Anonymous';
 
             return (<p key={index}>
-                <strong>{author}</strong>:
+                <Link to={ `/user/${author}` }>{author}</Link>:
                 <a href={commit.html_url}>{commit.commit.message}</a>.
             </p>);
         });
@@ -58,7 +58,7 @@ class Detail extends React.Component {
             const owner = fork.owner ? fork.owner.login : 'Anonymous';
 
             return (<p key={index}>
-                <strong>{owner}</strong>: forked to
+                <Link to={ `/user/${owner}` }>{owner}</Link>: forked to
                 <a href={fork.html_url}>{fork.html_url}</a> at {fork.created_at}.
             </p>);
         });
@@ -69,7 +69,7 @@ class Detail extends React.Component {
             const user = pull.user ? pull.user.login : 'Anonymous';
 
             return (<p key={index}>
-                <strong>{user}</strong>:
+                <Link to={ `/user/${user}` }>{user}</Link>:
                 <a href={pull.html_url}>{pull.body}</a>.
             </p>);
         });
