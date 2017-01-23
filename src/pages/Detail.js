@@ -63,58 +63,53 @@ class Detail extends React.Component {
     }
 
     renderCommits() {
-        return (<div>
-            {
-                this.state.commits.map((commit, index) => {
-                    const author = commit.author ? commit.author.login : 'Anonymous';
+        return this.state.commits.map((commit, index) => {
+            const author = commit.author ? commit.author.login : 'Anonymous';
 
-                    return (<p key={index}>
-                        <strong>{author}</strong>:
-                        <a href={commit.html_url}>{commit.commit.message}</a>.
-                    </p>);
-                })
-            }
-        </div>);
+            return (<p key={index}>
+                <strong>{author}</strong>:
+                <a href={commit.html_url}>{commit.commit.message}</a>.
+            </p>);
+        });
     }
 
     renderForks() {
-        return (<div>
-            {
-                this.state.forks.map((fork, index) => {
-                    return (<p key={index}>
-                        <strong>owner.login</strong>:
-                        <a href={fork.owner.login}>{fork.owner.login}</a>.
-                    </p>);
-                })
-            }
-        </div>);
+        return this.state.forks.map((fork, index) => {
+            const owner = fork.owner ? fork.owner.login : 'Anonymous';
+
+            return (<p key={index}>
+                <strong>{owner}</strong>: forked to
+                <a href={fork.html_url}>{fork.html_url}</a> at {fork.created_at}.
+            </p>);
+        });
     }
 
     renderPulls() {
-        return (<div>
-            {
-                this.state.pulls.map((pull, index) => {
-                     return (<p key={index}>
-                        <strong>url</strong>:
-                        <a href={pull.url}>{pull.url}</a>.
-                    </p>);
-                })
-            }
-        </div>);
+        return this.state.pulls.map((pull, index) => {
+            const user = pull.user ? pull.user.login : 'Anonymous';
+
+            return (<p key={index}>
+                <strong>{user}</strong>:
+                <a href={pull.html_url}>{pull.body}</a>.
+            </p>);
+        });
     }
 
     render() {
+        let content;
+
+        if (this.state.selectedView === SELECTEDVIEW.COMMITS) {
+            content = this.renderCommits();
+        } else if (this.state.selectedView === SELECTEDVIEW.FORKS) {
+            content = this.renderForks();
+        } else {
+            content = this.renderPulls();
+        }
         return (<div>
             <button onClick={this.selectView.bind(this, SELECTEDVIEW.COMMITS)}>Commits</button>
             <button onClick={this.selectView.bind(this, SELECTEDVIEW.FORKS)}>Forks</button>
             <button onClick={this.selectView.bind(this, SELECTEDVIEW.PULLS)}>Pulls</button>
-            {
-                this.state.selectedView === SELECTEDVIEW.COMMITS ? 
-                this.renderCommits() :
-                (this.state.selectedView === SELECTEDVIEW.FORKS ? 
-                 this.renderForks() : 
-                 this.renderPulls())
-            }
+            { content }
         </div>);
     }
 }
