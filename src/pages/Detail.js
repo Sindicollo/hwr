@@ -3,9 +3,9 @@ import Chance from 'chance';
 import ajax from 'superagent';
 
 const SELECTEDVIEW = {
-        COMMITS: 0,
-        FORKS: 1,
-        PULLS: 2,
+        COMMITS: 'commits',
+        FORKS: 'forks',
+        PULLS: 'pulls',
 }
 
 class Detail extends React.Component {
@@ -19,8 +19,8 @@ class Detail extends React.Component {
                      };
     }
 
-    selectView(view) {
-        this.setState( {selectedView: view} );
+    selectMode(event) {
+        this.setState({ selectedView: event.currentTarget.dataset.mode });
     }
 
     fetchFeed(type) {
@@ -85,11 +85,20 @@ class Detail extends React.Component {
             content = this.renderPulls();
         }
         return (<div>
-            <button onClick={this.selectView.bind(this, SELECTEDVIEW.COMMITS)}>Commits</button>
-            <button onClick={this.selectView.bind(this, SELECTEDVIEW.FORKS)}>Forks</button>
-            <button onClick={this.selectView.bind(this, SELECTEDVIEW.PULLS)}>Pulls</button>
-            { content }
-        </div>);
+            <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.COMMITS}>
+                Show Commits
+            </button>
+
+            <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.FORKS}>
+                Show Forks
+            </button>
+
+            <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.PULLS}>
+                Show Pulls
+            </button>
+                { content }
+            </div>
+        );
     }
 }
 
