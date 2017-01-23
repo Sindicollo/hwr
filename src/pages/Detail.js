@@ -2,14 +2,26 @@ import React, { Component } from 'react';
 import Chance from 'chance';
 
 class Detail extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            name: chance.first(),
+            country: chance.country({ full: true })
+        };
+    }
+
     buttonClicked() {
-        this.forceUpdate();
+        const newState = {
+            name: chance.first()
+        };
+        this.setState(newState);
     }
 
     render() {
         return (<div>
-            <p>Hello, {chance.first()}.</p>
-            <p>You are from {chance.country({ full: true })}.</p>
+            <p>Hello, {this.state.name}.</p>
+            <p>You are from {this.state.country}.</p>
             <button onClick={this.buttonClicked.bind(this)}>Meet Someone New </button>
         </div>);
     }
