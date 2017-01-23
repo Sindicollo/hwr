@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ajax from 'superagent';
+import { IndexLink, Link } from 'react-router';
 
 class User extends React.Component {
     constructor(props) {
@@ -46,6 +47,9 @@ class User extends React.Component {
         let content = this.renderUserEvents();
 
         return (<div>
+                <p>You are here:
+                <IndexLink to="/" activeClassName="active">Home</IndexLink>
+                > {this.props.params.user}</p>
                 <h2>Events for user {this.props.params.user}:</h2>
                 <ul>
                 { content }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ajax from 'superagent';
-import { Link } from 'react-router';
+import { IndexLink, Link } from 'react-router';
 
 const SELECTEDVIEW = {
         COMMITS: 'commits',
@@ -86,17 +86,18 @@ class Detail extends React.Component {
             content = this.renderPulls();
         }
         return (<div>
-            <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.COMMITS}>
-                Show Commits
-            </button>
+                <p>You are here: <IndexLink to="/" activeClassName="active">Home</IndexLink> > {this.props.params.repo}</p>
+                <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.COMMITS}>
+                    Show Commits
+                </button>
 
-            <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.FORKS}>
-                Show Forks
-            </button>
+                <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.FORKS}>
+                    Show Forks
+                </button>
 
-            <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.PULLS}>
-                Show Pulls
-            </button>
+                <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.PULLS}>
+                    Show Pulls
+                </button>   
                 { content }
             </div>
         );
