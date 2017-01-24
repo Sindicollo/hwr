@@ -6,7 +6,7 @@ const SELECTEDVIEW = {
         COMMITS: 'commits',
         FORKS: 'forks',
         PULLS: 'pulls',
-}
+};
 
 class Detail extends React.Component {
     constructor(props) {
@@ -19,11 +19,15 @@ class Detail extends React.Component {
                      };
     }
 
-    selectMode(event) {
-        this.setState({ selectedView: event.currentTarget.dataset.mode });
+    selectMode(view) {
+        this.setState({ selectedView: view });
     }
 
     fetchFeed(type) {
+        if (this.props.params.repo === '') {
+            // empty repo name, bail out!
+            return;
+        }
         const baseURL = 'https://api.github.com/repos/facebook';
         ajax.get(`${baseURL}/${this.props.params.repo}/${type}`)
             .end((error, response) => {
@@ -87,15 +91,15 @@ class Detail extends React.Component {
         }
         return (<div>
                 <p>You are here: <IndexLink to="/" activeClassName="active">Home</IndexLink> > {this.props.params.repo}</p>
-                <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.COMMITS}>
+                <button onClick={this.selectMode.bind(this, SELECTEDVIEW.COMMITS)} ref="commits">
                     Show Commits
                 </button>
 
-                <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.FORKS}>
+                <button onClick={this.selectMode.bind(this, SELECTEDVIEW.FORKS)} ref="forks">
                     Show Forks
                 </button>
 
-                <button onClick={this.selectMode.bind(this)} data-mode={SELECTEDVIEW.PULLS}>
+                <button onClick={this.selectMode.bind(this, SELECTEDVIEW.PULLS)} ref="pulls">
                     Show Pulls
                 </button>   
                 { content }
