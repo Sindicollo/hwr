@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ajax from 'superagent';
 import { IndexLink, Link } from 'react-router';
 
@@ -54,8 +54,6 @@ class Detail extends React.Component {
         );
     }
 
-
-
     renderCommits() {
         return this.state.commits.map((commit, index) => {
             const author = commit.author ? commit.author.login : 'Anonymous';
@@ -100,7 +98,7 @@ class Detail extends React.Component {
             content = this.renderPulls();
         }
         return (<div>
-          <p>You are here: <IndexLink to="/" activeClassName="active">Home</IndexLink> > {this.props.params.repo}</p>
+          <p>You are here: <IndexLink to="/" activeClassName="active">Home</IndexLink> &gt; {this.props.params.repo}</p>
           <button onClick={this.selectModeCommits} ref="commits">
              Show Commits
           </button>
@@ -117,5 +115,9 @@ class Detail extends React.Component {
         );
     }
 }
+
+Detail.propTypes = {
+    params: React.PropTypes.object,
+};
 
 export default Detail;

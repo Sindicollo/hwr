@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ajax from 'superagent';
-import { IndexLink, Link } from 'react-router';
+import { IndexLink } from 'react-router';
 
 class User extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            events: []
+            events: [],
         };
     }
 
@@ -60,5 +60,9 @@ class User extends React.Component {
         );
     }
 }
+
+User.propTypes = {
+    params: React.PropTypes.object,
+};
 
 export default User;
