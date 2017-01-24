@@ -11,6 +11,10 @@ class User extends React.Component {
         };
     }
 
+    componentWillMount() {
+        this.fetchFeed();
+    }
+
     fetchFeed() {
         const baseURL = 'https://api.github.com/users';
         ajax.get(`${baseURL}/${this.props.params.user}/events`)
@@ -20,12 +24,8 @@ class User extends React.Component {
                 } else {
                     console.log(`Error fetching user ${this.props.params.user} events`, error);
                 }
-            }
+            },
         );
-    }
-
-    componentWillMount() {
-        this.fetchFeed();
     }
 
     renderUserEvents() {
@@ -36,25 +36,27 @@ class User extends React.Component {
             const author = event.actor ? event.actor.login : 'Anonymous';
 
             return (
-            <li key={index}>
-                <strong>{author}</strong>, <a href={event.repo.url}><strong>{repoName}</strong></a>: {eventType}
+              <li key={index}>
+                <strong>{author}</strong>,
+                <a href={event.repo.url}><strong>{repoName}</strong></a>: {eventType}
                 at {creationDate}.
             </li>);
         });
     }
 
     render() {
-        let content = this.renderUserEvents();
+        const content = this.renderUserEvents();
 
         return (<div>
-                <p>You are here:
-                <IndexLink to="/" activeClassName="active">Home</IndexLink>
-                > {this.props.params.user}</p>
-                <h2>Events for user {this.props.params.user}:</h2>
-                <ul>
-                { content }
-                </ul>
-            </div>
+          <p>You are here:
+          <IndexLink to="/" activeClassName="active">Home</IndexLink>
+          &gt; {this.props.params.user}
+          </p>
+          <h2>Events for user {this.props.params.user}:</h2>
+          <ul>
+            { content }
+          </ul>
+        </div>
         );
     }
 }

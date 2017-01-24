@@ -7,12 +7,12 @@ import Detail from './pages/Detail';
 import User from './pages/User';
 
 const routes = (
-    <Route path="/" component={ App }>
-         {/* "IndexRoute: if my parent route was matched but none of my siblings matched, render me." */ }
-        <IndexRoute component={ List } />
-        <Route path="detail/:repo" component={ Detail } />
-        <Route path="user/:user" component={ User } />
-    </Route>
+  <Route path="/" component={App}>
+    {/* "IndexRoute: if my parent route was matched but none of my siblings matched, render me."*/}
+    <IndexRoute component={List} />
+    <Route path="detail/:repo" component={Detail} />
+    <Route path="user/:user" component={User} />
+  </Route>
 );
 
 export default routes;
